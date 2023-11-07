@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomordo</title>
+    <style>
+      body {
+        font-size: 48px;
+        font-weight: 700;
+        font-family: sans-serif;
+        text-transform: capitalize;
+      }
+      .idle {
+        background-color: white;
+        color: black;
+      }
+
+      .on {
+        background-color: rgb(255, 73, 73);
+        color: white;
+      }
+
+      .off {
+        background-color: rgb(73, 152, 255);
+        color: white;
+      }
+    </style>
+
+    <script>
+      const debug = false;
+
+      let debugPrint = (message) => {
+        if (debug) {
+          console.log(message);
+        }
+      };
+
+      let lastStatus;
+
+      let tick = () => {
+        let now = new Date(Date.now());
+        let minutes = now.getMinutes();
+        let pomordoMinutes = minutes % 30;
+        let status = pomordoMinutes >= 25 ? "off" : "on";
+
+        debugPrint(`tick: ${pomordoMinutes} ${status}`);
+
+        if (lastStatus !== status) {
+          lastStatus = status;
+          debugPrint(`status changed to ${status}`);
+          document.querySelector("body").className = status;
+          document.querySelector("span").className = status;
+          document.querySelector("span").textContent = status;
+        }
+      };
+
+      setInterval(tick, 100);
+    </script>
+  </head>
+  <body
+    class="idle"
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    "
+  >
+    <span class="idle"></span>
+  </body>
+</html>
